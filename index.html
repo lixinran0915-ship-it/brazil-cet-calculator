@@ -91,6 +91,7 @@
     .form { padding: 18px 22px 22px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
     .field { min-width: 0; }
     .field.full { grid-column: 1 / -1; }
+    .field.span-2 { grid-column: span 2; }
     label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; color: #344054; }
     .input-wrap { display: flex; align-items: center; border: 1px solid #cfd7e3; border-radius: 10px; overflow: hidden; background: white; }
     .input-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(46,95,145,.12); }
@@ -98,6 +99,19 @@
     .affix.end { border-right: 0; border-left: 1px solid var(--line); }
     input, select { width: 100%; min-width: 0; border: 0; outline: 0; height: 42px; padding: 9px 11px; color: var(--ink); background: white; }
     select { cursor: pointer; }
+    input:disabled, select:disabled { color: #475467; background: #f2f4f7; cursor: not-allowed; }
+    .controlled-note { color: var(--blue); font-weight: 650; }
+    .pricing-mode-field { grid-column: span 2; }
+    .mode-switch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding: 4px; border: 1px solid var(--line); border-radius: 11px; background: #f4f7fa; }
+    .mode-option { min-height: 38px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); cursor: pointer; font-weight: 750; }
+    .mode-option:hover { color: var(--navy); }
+    .mode-option[aria-pressed="true"] { background: white; color: var(--navy); box-shadow: 0 2px 8px rgba(18,52,86,.12); }
+    .pricing-config { grid-column: 1 / -1; padding: 15px; border: 1px solid var(--line); border-radius: 12px; background: #fbfcfe; }
+    .pricing-config-head { display: flex; justify-content: space-between; gap: 14px; align-items: center; margin-bottom: 13px; }
+    .pricing-config-head strong { color: var(--navy); font-size: 14px; }
+    .pricing-config-head span { color: var(--muted); font-size: 11px; }
+    .pricing-config-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; align-items: start; }
+    .auto-config-summary { grid-column: 1 / -1; margin-top: 13px; padding: 10px 12px; border: 1px solid #b9dfcb; border-radius: 9px; background: var(--green-bg); color: var(--green); font-size: 12px; font-weight: 650; }
     input[type="date"] { padding-right: 8px; }
     .hint { margin: 6px 0 0; color: var(--muted); font-size: 12px; }
     .fee-note { grid-column: 1 / -1; border: 1px solid #f0d78c; background: var(--amber-bg); color: #6d4907; border-radius: 11px; padding: 11px 13px; font-size: 12px; }
@@ -109,16 +123,18 @@
     .collapsible-setting { padding: 3px 13px 14px; }
     .result-wrap { display: grid; gap: 20px; }
     .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 18px; }
-    .metric { border: 1px solid var(--line); border-radius: 13px; padding: 14px; background: #fbfcfe; }
+    .metric { box-sizing: border-box; height: 116px; border: 1px solid var(--line); border-radius: 13px; padding: 14px; background: #fbfcfe; display: flex; flex-direction: column; }
     .metric.primary { background: var(--green-bg); border-color: #b9dfcb; }
-    .metric span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 7px; }
+    .metric > span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 7px; }
     .metric strong { display: block; font-size: 23px; letter-spacing: -.025em; color: var(--navy); }
     .metric.primary strong { color: var(--green); }
-    .metric small { color: var(--muted); font-size: 11px; }
+    .metric small { color: var(--muted); font-size: 11px; margin-top: auto; }
+    .metric small.cost-breakdown { white-space: nowrap; }
     .status { margin: 0 18px 18px; padding: 10px 12px; border-radius: 10px; font-size: 13px; background: var(--green-bg); color: var(--green); }
     .status.error { background: #feeceb; color: var(--red); }
     .section-title { margin: 0; padding: 16px 18px 11px; color: var(--navy); font-size: 16px; }
     .table-shell { overflow-x: auto; border-top: 1px solid var(--line); }
+    .table-shell table { min-width: 1120px; }
     table { width: 100%; border-collapse: collapse; min-width: 720px; }
     th { background: var(--navy); color: white; text-align: right; font-size: 12px; padding: 10px 11px; white-space: nowrap; }
     th:first-child, th:nth-child(2) { text-align: left; }
@@ -137,8 +153,9 @@
     .logic-lead h2 { margin: 0 0 7px; color: var(--navy); font-size: 21px; }
     .logic-lead p { margin: 0; color: var(--muted); }
     .equation-badge { background: var(--green-bg); color: var(--green); border: 1px solid #b9dfcb; border-radius: 13px; padding: 14px 16px; font-weight: 800; text-align: center; }
-    .logic-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 20px; align-items: start; }
-    .logic-primary-stack, .knowledge-stack { display: grid; gap: 20px; align-content: start; }
+    .logic-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); gap: 20px; align-items: start; }
+    .logic-primary-stack, .knowledge-stack { min-width: 0; width: 100%; display: grid; gap: 20px; align-content: start; }
+    .logic-primary-stack > .card, .knowledge-stack > .card { width: 100%; min-width: 0; }
     .info-card { padding: 19px 20px; }
     .info-card h2 { margin: 0 0 10px; color: var(--navy); font-size: 17px; }
     .info-card h3 { margin: 16px 0 5px; color: #344054; font-size: 14px; }
@@ -149,6 +166,16 @@
     .term { border-left: 3px solid #b9cee2; padding-left: 11px; }
     .term strong { display: block; color: #344054; font-size: 13px; }
     .term span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .logic-table-wrap { overflow-x: auto; margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; }
+    .logic-table { min-width: 880px; }
+    .logic-table th { text-align: left; white-space: normal; }
+    .logic-table td { text-align: left; white-space: normal; vertical-align: top; font-size: 12px; line-height: 1.55; }
+    .logic-table code { display: inline; margin: 0; padding: 1px 5px; border-radius: 4px; white-space: nowrap; }
+    .method-formulas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+    .method-formula { padding: 13px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fbfcfe; }
+    .method-formula h3 { margin: 0 0 5px; color: var(--navy); font-size: 13px; }
+    .method-formula p { margin: 0; color: var(--muted); font-size: 12px; }
+    .basis-warning { margin-top: 12px; padding: 11px 13px; border: 1px solid #f0d78c; border-radius: 10px; background: var(--amber-bg); color: #6d4907; font-size: 12px; }
     .compliance-banner { margin-bottom: 20px; padding: 17px 20px; border: 1px solid #9fc9b3; border-left: 5px solid var(--green); border-radius: 13px; background: var(--green-bg); color: #214f3b; line-height: 1.7; }
     .compliance-banner strong { color: var(--green); }
     .compliance-banner p { margin: 0; }
@@ -200,6 +227,7 @@
     }
     @media (max-width: 760px) {
       .form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pricing-config-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 600px) {
       .page { padding: 20px 12px 40px; }
@@ -208,14 +236,18 @@
       .brand strong { display: none; }
       .nav-tab { font-size: 12px; padding: 8px 9px; }
       .form, .metrics { grid-template-columns: 1fr; }
+      .pricing-mode-field, .field.span-2 { grid-column: auto; }
+      .pricing-config-grid { grid-template-columns: 1fr; }
       .field.full, .fee-note, .advanced { grid-column: auto; }
       .advanced-grid { grid-template-columns: 1fr; }
+      .metric { height: auto; min-height: 116px; }
       .metric strong { font-size: 21px; }
       .official-formula-head { align-items: flex-start; flex-direction: column; }
       .math-panel { padding: 24px 12px; overflow-x: auto; }
       .collapsible-info summary { align-items: flex-start; flex-direction: column; gap: 4px; }
       .hero-title-line { gap: 4px 10px; }
       .hero-context { font-size: 14px; white-space: normal; }
+      .method-formulas { grid-template-columns: 1fr; }
     }
     @media print {
       body { background: white; }
@@ -237,8 +269,7 @@
       </div>
       <nav class="side-nav" aria-label="页面导航" role="tablist">
         <button class="nav-tab" id="tab-logic" type="button" role="tab" aria-controls="view-logic" aria-selected="true" data-view="logic"><span class="nav-index">01</span>计算逻辑</button>
-        <button class="nav-tab" id="tab-apr" type="button" role="tab" aria-controls="view-apr" aria-selected="false" data-view="apr"><span class="nav-index">02</span>CET计算器 - 输入APR</button>
-        <button class="nav-tab" id="tab-calculator" type="button" role="tab" aria-controls="view-calculator" aria-selected="false" data-view="calculator"><span class="nav-index">03</span>CET计算器 - 输入EIR</button>
+        <button class="nav-tab" id="tab-apr" type="button" role="tab" aria-controls="view-apr" aria-selected="false" data-view="apr"><span class="nav-index">02</span>CET计算器 - 输入合同利率</button>
       </nav>
       <p class="side-note">以借款人真实现金流为核心。先理解口径，再进入产品测算。</p>
     </aside>
@@ -296,7 +327,8 @@
             <div class="official-rules">
               <span><strong>日期口径：</strong>实际自然日</span>
               <span><strong>披露口径：</strong>年度百分比有效利率</span>
-              <span><strong>精度：</strong>至少保留小数点后两位</span>
+              <span><strong>披露精度：</strong>保留两位小数；计算过程内部保留完整精度</span>
+              <span><strong>与合同日基准的关系：</strong>法规层面合同利息可采用360、365或252日基准；本计算器固定采用自然日/360生成还款计划，CET始终按实际自然日/365反求</span>
             </div>
           </div>
         </section>
@@ -304,7 +336,7 @@
         <section class="card logic-lead" aria-labelledby="logic-core-title">
           <div>
             <h2 id="logic-core-title">CET本质上是借款人现金流的年化IRR</h2>
-            <p>放款日记一笔正现金流，之后每笔强制支付记为负现金流。使所有现金流净现值等于0的年度有效利率，就是CET。它不是单独一项收费，也不是合同月利率简单乘以12。</p>
+            <p>放款日记一笔正现金流，之后每笔强制支付记为负现金流。合同利率和interest_base负责先生成还款计划；CET再使用该计划中的真实支付金额和真实日期，按自然日/365反求。它不是单独一项收费，也不是合同月利率简单乘以12。</p>
           </div>
           <div class="equation-badge">实际净到账 ↔ 全部强制还款</div>
         </section>
@@ -314,21 +346,40 @@
             <section class="card formula-card" aria-labelledby="steps-title">
               <h2 id="steps-title">完整计算顺序</h2>
               <div class="formula-steps">
-                <div class="formula-step"><span class="step-no">1</span><div><strong>汇总不含IOF的融资金额</strong><code>A = 净到账 + 固定费用合计 + 净到账 × 比例费用合计（含保险）</code></div></div>
-                <div class="formula-step"><span class="step-no">2</span><div><strong>把合同利率转换成各期利率</strong><code>月利率口径：iⱼ = (1 + i月)^(本期实际天数÷30) − 1；每期利率口径：iⱼ = i期</code></div></div>
-                <div class="formula-step"><span class="step-no">2A</span><div><strong>按所选还款方式计算本金结构</strong><code>Price：月利率口径 q = 1 ÷ Σ[(1 + i月)^(-累计天数÷30)]；等本等息：每期单位还本 = 1 ÷ 期数，利息始终按初始本金计算</code></div></div>
-                <div class="formula-step"><span class="step-no">3</span><div><strong>计算IOF因子</strong><code>f = 附加税率 + Σ[单位还本比例 × 日税率 × min(放款日至该期的实际天数, 日税天数上限)]</code></div></div>
-                <div class="formula-step"><span class="step-no">4</span><div><strong>IOF计入本金时做融资毛额化</strong><code>合同融资本金 P = A ÷ (1 − f)；融资IOF = P − A</code></div></div>
-                <div class="formula-step"><span class="step-no">5</span><div><strong>根据融资费用计息方式计算每期还款</strong><code>生息：固定费用、比例费用（含保险）和IOF全部进入计息本金；不生息：全部融资费用仅分期偿还，不进入利息基数。Price按剩余计息本金计算，等本等息按初始计息本金计算</code></div></div>
-                <div class="formula-step"><span class="step-no">6</span><div><strong>按实际日期反求年度CET</strong><code>0 = 净到账 − Σ[第j期强制支付 ÷ (1+CET)^(放款日至第j期实际天数÷365)]</code></div></div>
+                <div class="formula-step"><span class="step-no">1</span><div><strong>选择QI Interest Type或自定义模式</strong><code>QI快捷项自动确定Price或SAC，以及采用固定30天利率还是按实际天数折算；自定义模式允许单独选择利率口径和还款方式，合同日基准仍固定为自然日/360</code></div></div>
+                <div class="formula-step"><span class="step-no">2</span><div><strong>确定合同利率口径</strong><code>可输入日息、30天月有效利率或每期有效利率；interest_base固定为calendar_days（自然日/360，每月30天）</code></div></div>
+                <div class="formula-step"><span class="step-no">3</span><div><strong>生成合同到期日与计息天数</strong><code>同时记录本期自然日、计息日和放款日至到期日累计自然日；IOF与CET使用累计自然日</code></div></div>
+                <div class="formula-step"><span class="step-no">4</span><div><strong>换算每一期合同利率</strong><code>pre_price：每期直接使用一次30天周期有效利率；pre_price_days与pre_sac：将30天月有效利率按实际自然日折算，iₜ=(1+i月)^(本期实际自然日÷30)−1；自定义按日单利仅适用于日息口径，iₜ=日息×本期计息天数</code></div></div>
+                <div class="formula-step"><span class="step-no">5</span><div><strong>计算本金摊还结构</strong><code>Price：折现各期付款并求固定PMT；SAC：每期偿还相同本金；等本等息：本金等分且利息始终按初始计息本金计算</code></div></div>
+                <div class="formula-step"><span class="step-no">6</span><div><strong>按本金摊还结构计算IOF</strong><code>IOF = Issue Amount×附加税率 + Σ[第t期偿还本金×日税率×min(累计自然日, 日税天数上限)]</code></div></div>
+                <div class="formula-step"><span class="step-no">7</span><div><strong>循环反算CCB本金及融资费用</strong><code>CCB本金P = 客户实际净到账 + 固定费用 + 按Issue Amount计提的比例费用 + 融资IOF；IOF根据P和本金摊还计划循环计算，直至数值收敛</code></div></div>
+                <div class="formula-step"><span class="step-no">8</span><div><strong>生成还款计划</strong><code>固定费用、比例费用（含保险）和IOF全部进入合同计息本金并产生合同利息。PMT、利息、本金和余额内部保留完整精度，仅在页面展示时格式化为两位小数</code></div></div>
+                <div class="formula-step"><span class="step-no">9</span><div><strong>按实际日期反求年度CET</strong><code>0 = 净到账 − Σ[第j期强制支付 ÷ (1+CET)^(放款日至第j期实际自然日÷365)]</code></div></div>
+                <div class="formula-step"><span class="step-no">10</span><div><strong>计算资金方辅助指标</strong><code>Spread价差 = CCB本金 × Spread费率；FIDC Net净值 = 总还款 − CCB本金 − PIX归集手续费 − Spread价差。该结果是全期限名义净收益金额，未考虑资金时间价值，不等于FIDC IRR</code></div></div>
               </div>
             </section>
 
             <section class="card info-card">
-              <h2>两种还款方式</h2>
-              <div class="term-list">
-                <div class="term"><strong>Price等额还款</strong><span>利息按剩余计息本金计算，本金占比逐期增加；融资费用是否进入计息本金，由计算器中的计息方式统一决定。</span></div>
-                <div class="term"><strong>等本等息（默认）</strong><span>每期偿还相同本金，利息始终按初始计息本金计算，不随剩余本金下降；采用实际天数计息时，各期利息会随天数变化。</span></div>
+              <h2>五种还款方式对比</h2>
+              <p>前三种与QI Interest Type直接对应；后两种为本计算器保留的自定义产品模式。</p>
+              <div class="logic-table-wrap">
+                <table class="logic-table">
+                  <thead><tr><th>还款方式</th><th>QI映射</th><th>各期利率</th><th>本金结构</th><th>每期还款特征</th></tr></thead>
+                  <tbody>
+                    <tr><td>Tabela Price－按实际天数</td><td><code>pre_price_days</code></td><td>按实际自然日/360复利换算，即月利率按每月30天折算</td><td>剩余本金递减，本金占比逐期增加</td><td>固定高精度付款额，页面显示到分</td></tr>
+                    <tr><td>Tabela Price－固定30天</td><td><code>pre_price</code></td><td>每期直接使用一个固定周期利率</td><td>剩余本金递减，本金占比逐期增加</td><td>固定付款额，不因28/30/31天改变合同利率</td></tr>
+                    <tr><td>SAC等额本金－按实际天数</td><td><code>pre_sac</code></td><td>按实际自然日/360复利换算，即月利率按每月30天折算</td><td>每期偿还相同本金</td><td>总还款额通常逐期下降</td></tr>
+                    <tr><td>Tabela Price－按日单利</td><td>非QI标准映射</td><td>仅适用于日息口径：<code>iₜ = 日息 × 本期计息天数</code></td><td>剩余本金递减，本金占比逐期增加</td><td>使用变动期间利率反算固定PMT</td></tr>
+                    <tr><td>等本等息</td><td>非QI标准映射</td><td>按所选利率口径生成</td><td>本金等分，利息始终按初始计息本金</td><td>实际天数不同时，每期金额可能变化</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="method-formulas">
+                <div class="method-formula"><h3>Price固定周期</h3><p><strong>PMT = P × i ÷ [1 − (1+i)<sup>−n</sup>]</strong><br />适用于每期利率相同的<code>pre_price</code>。</p></div>
+                <div class="method-formula"><h3>Price各期利率不同</h3><p><strong>PMT = P ÷ Σ[1 ÷ Π(1+i<sub>k</sub>)]</strong><br />适用于<code>pre_price_days</code>和自定义按日单利。</p></div>
+                <div class="method-formula"><h3>SAC等额本金</h3><p><strong>A=P÷n；Jₜ=Bₜ₋₁×iₜ；PMTₜ=A+Jₜ</strong><br />利息基数随剩余本金下降。</p></div>
+                <div class="method-formula"><h3>等本等息</h3><p><strong>A=P÷n；Jₜ=P×iₜ；PMTₜ=A+Jₜ</strong><br />利息始终使用初始计息本金。</p></div>
               </div>
             </section>
 
@@ -342,14 +393,33 @@
                   <div class="term"><strong>年度有效CET</strong><span>以实际日期/365折现，使借款人全量现金流净现值为0的年利率。</span></div>
                   <div class="term"><strong>月度等效CET</strong><span>由年度CET换算：月度等效CET = (1 + 年度CET)^(1/12) − 1。</span></div>
                   <div class="term"><strong>CET线性年化</strong><span>月度等效CET × 12，用于和线性年化口径比较；不等于年度有效CET。</span></div>
-                  <div class="term"><strong>IRR线性年化</strong><span>忽略自然月长短，把每一期视为等间隔后反求每期IRR，再乘年内期数；每月模式乘12，固定X天模式乘365/X。</span></div>
-                  <div class="term"><strong>产品总利率</strong><span>（总还款 − 融资IOF − 实际净到账）÷实际净到账，是整个借款期限的累计比例，不是年化利率。</span></div>
+                  <div class="term"><strong>合同年有效利率</strong><span>先将合同利率换算为月利率或30天等效月利率，再按复利年化：(1＋月利率或等效月利率)^12－1。</span></div>
+                  <div class="term"><strong>产品总利率</strong><span>产品总利率 =（总还款 − 融资IOF − 实际净到账）÷实际净到账，是整个借款期限的累计比例，不是年化利率。若融资IOF选择生息，本指标虽然扣除了IOF本金，但仍会包含IOF产生的合同利息。</span></div>
                 </div>
               </details>
             </section>
           </div>
 
           <div class="knowledge-stack">
+            <section class="card info-card">
+              <h2>QI快捷选择怎样控制计算器</h2>
+              <div class="term-list">
+                <div class="term"><strong>pre_price</strong><span>30天月有效利率＋Price固定30天；不按实际天数换算。</span></div>
+                <div class="term"><strong>pre_price_days</strong><span>30天月有效利率＋Price按实际自然日；固定使用calendar_days，即自然日/360、每月30天。</span></div>
+                <div class="term"><strong>pre_sac</strong><span>30天月有效利率＋SAC按实际自然日；固定使用calendar_days，即自然日/360、每月30天。</span></div>
+                <div class="term"><strong>自定义</strong><span>利率口径和还款方式由用户选择；合同日基准仍固定为自然日/360。</span></div>
+              </div>
+            </section>
+
+            <section class="card info-card">
+              <h2>固定interest_base：calendar_days</h2>
+              <p>本计算器固定采用自然日/360，即一年360天、每月30天，不再向用户提供365或252日基准选择。</p>
+              <div class="term-list" style="margin-top:12px">
+                <div class="term"><strong>calendar_days · 自然日/360</strong><span>iₜ = (1+i<sub>m</sub>)<sup>Dₜ/30</sup> − 1</span></div>
+              </div>
+              <div class="basis-warning"><strong>适用范围：</strong>QI三种标准模式中，<code>pre_price</code>每期直接使用一次月利率；只有<code>pre_price_days</code>与<code>pre_sac</code>按上述公式使用实际自然日。CET仍独立按实际自然日/365反求。</div>
+            </section>
+
             <section class="card info-card">
               <h2>IOF怎样进入计算</h2>
               <ul>
@@ -366,7 +436,8 @@
               <h3>本计算器的录入方式</h3>
               <ul>
                 <li>固定金额费用先加总，填入“固定费用合计”。</li>
-                <li>按净到账比例收取的费用（包括保险）先加总，统一填入“按净到账比例的费用合计”。</li>
+                <li>比例费用（包括保险）先加总，并统一以Issue Amount为基数计提；固定费用、比例费用和IOF全部进入合同计息本金。</li>
+                <li>本计算器默认PIX还款归集手续费和Spread价差完全由资金方承担，因此仅用于计算FIDC Net净值，不进入借款人现金流和CET；如果相关费用直接或间接向借款人收取，则应作为客户支付现金流纳入CET。</li>
                 <li>逾期罚息、滞纳金等不确定的违约成本，不放入正常履约CET。</li>
               </ul>
             </section>
@@ -376,7 +447,7 @@
               <ul>
                 <li>第0期现金流必须用客户<strong>实际净到账</strong>，不是合同本金。</li>
                 <li>每期折现天数从放款日直接计算，不能一律假设30天。</li>
-                <li>利息、本金和余额按分结算；标准期供显示到分，最后一期自动调整尾差以结清本金。</li>
+                <li>CCB本金、IOF、PMT、利息、本金和余额内部保留完整精度；页面统一显示到分，合计使用未取整底层金额。</li>
                 <li>用计算出的CET回代后，现金流净现值应接近0。</li>
               </ul>
             </section>
@@ -385,178 +456,11 @@
 
       </section>
 
-      <section class="page view" id="view-calculator" role="tabpanel" aria-labelledby="tab-calculator" hidden>
-        <header class="hero">
-          <div>
-            <div class="hero-title-line">
-              <h1>CET 计算器 - EIR</h1>
-              <span class="hero-context">主要用于计算竞品的CET数据</span>
-            </div>
-            <p>支持填写30天月有效利率或每期有效利率，并可选择Price等额还款或等本等息，结合IOF和实际日期/365日基准计算年度有效CET。</p>
-          </div>
-          <div class="hero-actions">
-            <button class="btn" id="resetBtn" type="button">恢复示例</button>
-            <button class="btn" type="button" onclick="window.print()">打印结果</button>
-          </div>
-        </header>
-
-        <div class="grid">
-      <section class="card inputs" aria-labelledby="input-title">
-        <div class="card-head">
-          <h2 id="input-title">产品参数</h2>
-          <p>输入变化后自动重算，金额单位为巴西雷亚尔。</p>
-        </div>
-        <form class="form" id="calculatorForm" novalidate>
-          <div class="field">
-            <label for="netAmount">客户实际净到账</label>
-            <div class="input-wrap"><span class="affix">R$</span><input id="netAmount" type="number" min="0.01" step="0.01" value="1000" /></div>
-          </div>
-          <div class="field">
-            <label for="rateBasis">合同利率口径</label>
-            <div class="input-wrap">
-              <select id="rateBasis">
-                <option value="monthly" selected>30天月有效利率</option>
-                <option value="period">每期有效利率</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label for="contractRate" id="contractRateLabel">合同月利率（30天）</label>
-            <div class="input-wrap"><input id="contractRate" type="number" min="0" step="0.01" value="20" /><span class="affix end">%</span></div>
-            <p class="hint" id="contractRateHint">视为30天有效利率，各期按实际天数/30复利折算。</p>
-          </div>
-          <div class="advanced">
-            <details id="eirRepaymentDetails">
-              <summary id="eirRepaymentSummary">还款方式：等本等息</summary>
-              <div class="collapsible-setting">
-                <div class="field">
-                  <label for="eirRepaymentMethod">选择还款方式</label>
-                  <div class="input-wrap">
-                    <select id="eirRepaymentMethod">
-                      <option value="price">Price等额还款</option>
-                      <option value="flat" selected>等本等息</option>
-                    </select>
-                  </div>
-                  <p class="hint" id="eirRepaymentHint">每期偿还相同的合同本金，利息始终按初始合同本金和本期利率计算；采用实际天数折算时，各期利息会随天数变化。</p>
-                </div>
-              </div>
-            </details>
-          </div>
-          <div class="field">
-            <label for="disbursementDate">放款日期</label>
-            <div class="input-wrap"><input id="disbursementDate" type="date" value="2026-01-01" /></div>
-          </div>
-          <div class="field">
-            <label for="repaymentMode">还款日期模式</label>
-            <div class="input-wrap">
-              <select id="repaymentMode">
-                <option value="monthly" selected>每月固定还款日</option>
-                <option value="fixedDays">每隔固定天数还款</option>
-              </select>
-            </div>
-          </div>
-          <div class="field" id="monthlyDueField">
-            <label for="firstDueDate">第一期到期日</label>
-            <div class="input-wrap"><input id="firstDueDate" type="date" value="2026-02-01" /></div>
-            <p class="hint">后续各期保持同一日历还款日；当月没有该日期时自动使用当月最后一天。</p>
-          </div>
-          <div class="field" id="intervalDaysField" hidden>
-            <label for="intervalDays">每期间隔天数</label>
-            <div class="input-wrap"><input id="intervalDays" type="number" min="1" max="365" step="1" value="30" /><span class="affix end">天</span></div>
-            <p class="hint" id="intervalHint">第一期为放款日后30天，后续每30天一期。</p>
-          </div>
-          <div class="field">
-            <label for="term">期数</label>
-            <div class="input-wrap"><input id="term" type="number" min="1" step="1" value="3" /><span class="affix end">期</span></div>
-            <p class="hint">不设产品期数上限；请输入大于等于1的整数。</p>
-          </div>
-
-          <div class="field">
-            <label for="fixedFees">固定费用合计</label>
-            <div class="input-wrap"><span class="affix">R$</span><input id="fixedFees" type="number" min="0" step="0.01" value="0" /></div>
-            <p class="hint">把所有按固定金额收取的注册费、服务费等相加后输入。</p>
-          </div>
-          <div class="field">
-            <label for="proportionalFees">按净到账比例的费用合计</label>
-            <div class="input-wrap"><input id="proportionalFees" type="number" min="0" step="0.01" value="0" /><span class="affix end">%</span></div>
-            <p class="hint">把所有按客户净到账比例收取的费用相加后输入，保险费率也合并在这里。</p>
-          </div>
-          <div class="field">
-            <label for="eirFinancedCostInterest">融资费用计息方式</label>
-            <div class="input-wrap">
-              <select id="eirFinancedCostInterest">
-                <option value="non_bearing" selected>全部融资费用不生息</option>
-                <option value="bearing">全部融资费用生息</option>
-              </select>
-            </div>
-            <p class="hint" id="eirCostInterestHint">固定费用、比例费用（含保险）和IOF均纳入应还本金，但不进入利息基数。</p>
-          </div>
-          <div class="fee-note">
-            <strong>费用输入提示</strong>
-            同一项费用只能录入一次。保险费率请合并到“按净到账比例的费用合计”；固定费用、比例费用和IOF统一采用上方选择的计息方式。
-          </div>
-
-          <div class="advanced">
-            <details>
-              <summary>IOF参数</summary>
-              <div class="advanced-grid">
-                <div class="field">
-                  <label for="iofAdditional">附加税率</label>
-                  <div class="input-wrap"><input id="iofAdditional" type="number" min="0" step="0.0001" value="0.38" /><span class="affix end">%</span></div>
-                </div>
-                <div class="field">
-                  <label for="iofDaily">日税率</label>
-                  <div class="input-wrap"><input id="iofDaily" type="number" min="0" step="0.0001" value="0.0082" /><span class="affix end">%</span></div>
-                </div>
-                <div class="field">
-                  <label for="iofDayCap">日税天数上限</label>
-                  <div class="input-wrap"><input id="iofDayCap" type="number" min="0" step="1" value="365" /><span class="affix end">天</span></div>
-                </div>
-              </div>
-            </details>
-          </div>
-        </form>
-      </section>
-
-      <div class="result-wrap">
-        <section class="card" aria-labelledby="result-title">
-          <div class="card-head">
-            <h2 id="result-title">计算结果</h2>
-            <p>CET为年度有效利率，不是合同利率的简单线性年化。</p>
-          </div>
-          <div class="metrics">
-            <div class="metric primary"><span>年度CET</span><strong id="annualCet">—</strong><small>实际日期 / 365</small></div>
-            <div class="metric"><span>月度等效CET</span><strong id="monthlyCet">—</strong><small>由年度CET复利换算</small></div>
-            <div class="metric"><span>月度等效CET × 12</span><strong id="linearCet">—</strong><small>线性年化口径</small></div>
-            <div class="metric"><span>年化IRR</span><strong id="linearIrr">—</strong><small id="irrBasis">每期IRR × 年内期数</small></div>
-            <div class="metric"><span>融资IOF</span><strong id="iofAmount">—</strong><small id="iofTreatmentHint">计入计息本金（生息）</small></div>
-            <div class="metric"><span>产品总利率</span><strong id="productTotalRate">—</strong><small>不含IOF · 全期限累计比例</small></div>
-          </div>
-          <div class="status" id="status" role="status">计算完成</div>
-        </section>
-
-        <section class="card" aria-labelledby="schedule-title">
-          <h2 class="section-title" id="schedule-title">还款计划与CET现金流</h2>
-          <div class="table-shell">
-            <table>
-              <thead><tr><th>期数</th><th>到期日</th><th>本期天数</th><th>距放款日</th><th>期初本金</th><th>利息</th><th>偿还本金</th><th>应还金额</th><th>期末本金</th></tr></thead>
-              <tbody id="scheduleBody"></tbody>
-              <tfoot><tr><td colspan="5">合计</td><td id="totalInterest">—</td><td id="totalPrincipal">—</td><td id="totalPayment">—</td><td>—</td></tr></tfoot>
-            </table>
-          </div>
-        </section>
-
-      </div>
-        </div>
-
-        <p class="footer"><strong>提示：</strong>IOF税率和适用规则可能调整。产品上线、续作或改价前，应按签约日核对最新巴西法规。本工具用于产品测算，不替代税务或法律意见。</p>
-      </section>
-
       <section class="page view" id="view-apr" role="tabpanel" aria-labelledby="tab-apr" hidden>
         <header class="hero">
           <div>
-            <h1>CET 计算器 - APR</h1>
-            <p>输入日息，默认采用等本等息，也可选择Tabela Price按日单利或按日复利计算；固定费用、比例费用（含保险）和IOF可统一选择生息或不生息。</p>
+            <h1>CET计算器 - 输入合同利率</h1>
+            <p>支持QI的pre_price、pre_price_days、pre_sac三种模式，并保留等本等息和Price按日单利自定义模式；合同日基准固定为自然日/360，CET独立按实际日期/365计算。</p>
           </div>
           <div class="hero-actions">
             <button class="btn" id="aprResetBtn" type="button">恢复示例</button>
@@ -568,39 +472,74 @@
           <section class="card inputs" aria-labelledby="apr-input-title">
             <div class="card-head">
               <h2 id="apr-input-title">产品参数</h2>
-              <p>日息基数按所选计息方式确定；输入变化后自动重算。</p>
+              <p>合同利率按所选口径转换为每期利率；输入变化后自动重算。</p>
             </div>
             <form class="form" id="aprCalculatorForm" novalidate>
               <div class="field">
                 <label for="aprNetAmount">客户实际净到账</label>
-                <div class="input-wrap"><span class="affix">R$</span><input id="aprNetAmount" type="number" min="0.01" step="0.01" value="1000" /></div>
+                <div class="input-wrap"><span class="affix">R$</span><input id="aprNetAmount" type="number" min="0.01" step="0.01" value="500" /></div>
               </div>
-              <div class="field">
-                <label for="aprDailyRate">日息</label>
-                <div class="input-wrap"><input id="aprDailyRate" type="number" min="0" step="0.0001" value="0.7" /><span class="affix end">%/天</span></div>
-                <p class="hint" id="aprQuoteHint">月度APR 21.00%；年度APR 255.50%。</p>
+              <div class="field pricing-mode-field">
+                <label>定价模式</label>
+                <input id="aprPricingMode" type="hidden" value="qi" />
+                <div class="mode-switch" role="group" aria-label="定价模式">
+                  <button class="mode-option" type="button" data-pricing-mode="qi" aria-pressed="true">QI标准模式</button>
+                  <button class="mode-option" type="button" data-pricing-mode="custom" aria-pressed="false">自定义模式</button>
+                </div>
+                <p class="hint" id="aprPricingModeHint">选择QI Interest Type后，系统自动控制利率口径和还款方式；合同日基准固定为自然日/360。</p>
               </div>
-              <div class="advanced">
-                <details id="aprInterestDetails">
-                  <summary id="aprInterestSummary">还款方式：等本等息</summary>
-                  <div class="collapsible-setting">
-                    <div class="field">
-                      <label for="aprInterestModel">选择还款方式</label>
-                      <div class="input-wrap">
-                        <select id="aprInterestModel">
-                          <option value="flat" selected>等本等息</option>
-                          <option value="price_simple">Tabela Price - 按日单利</option>
-                          <option value="price_compound">Tabela Price - 按日复利</option>
-                        </select>
-                      </div>
-                      <p class="hint" id="aprModelHint">每期偿还相同本金；利息＝客户实际净到账 × 日息 × 本期实际天数，计息基数不随本金偿还而下降。</p>
+              <section class="pricing-config" aria-labelledby="pricing-config-title">
+                <div class="pricing-config-head">
+                  <strong id="pricing-config-title">合同定价配置</strong>
+                  <span id="aprPricingConfigCaption">QI参数联动</span>
+                </div>
+                <div class="pricing-config-grid">
+                  <div class="field" id="aprQiTypeField">
+                    <label for="aprQiInterestType">QI Interest Type</label>
+                    <div class="input-wrap">
+                      <select id="aprQiInterestType">
+                        <option value="pre_price">pre_price</option>
+                        <option value="pre_price_days" selected>pre_price_days</option>
+                        <option value="pre_sac">pre_sac</option>
+                      </select>
+                    </div>
+                    <p class="hint" id="aprQiTypeHint">Tabela Price等额分期；按实际自然日/360（每月30天）复利换算。</p>
+                  </div>
+                  <div class="field" id="aprRateBasisField" hidden>
+                    <label for="aprRateBasis">合同利率口径</label>
+                    <div class="input-wrap">
+                      <select id="aprRateBasis">
+                        <option value="daily">日息</option>
+                        <option value="monthly" selected>30天月有效利率</option>
+                        <option value="period">每期有效利率</option>
+                      </select>
                     </div>
                   </div>
-                </details>
+                  <div class="field" id="aprContractRateField">
+                    <label for="aprContractRate" id="aprContractRateLabel">30天月有效利率</label>
+                    <div class="input-wrap"><input id="aprContractRate" type="number" min="0" step="0.0001" value="1.8" /><span class="affix end" id="aprContractRateUnit">%/30天</span></div>
+                    <p class="hint" id="aprQuoteHint">30天月有效利率；按日基准转换为各期利率。</p>
+                  </div>
+                  <input id="aprInterestBase" type="hidden" value="calendar_days" />
+                  <div class="field span-2" id="aprCustomRepaymentField" hidden>
+                    <label for="aprInterestModel">选择还款方式</label>
+                    <div class="input-wrap">
+                      <select id="aprInterestModel">
+                        <option value="pre_price" selected>Tabela Price－固定30天（pre_price）</option>
+                        <option value="pre_price_days">Tabela Price－按实际天数（pre_price_days）</option>
+                        <option value="pre_sac">SAC等额本金－按实际天数（pre_sac）</option>
+                        <option value="price_simple_custom">Tabela Price－按日单利（非QI标准映射）</option>
+                        <option value="flat">等本等息（非QI标准映射）</option>
+                      </select>
+                    </div>
+                    <p class="hint" id="aprModelHint">期间利率按实际计息天数复利换算；对客户净到账及全部融资费用按Tabela Price计算。</p>
+                  </div>
                 </div>
+                <div class="auto-config-summary" id="aprAutoConfigSummary">已自动配置：Tabela Price－按实际天数｜30天月有效利率｜自然日/360（每月30天）</div>
+              </section>
               <div class="field">
                 <label for="aprDisbursementDate">放款日期</label>
-                <div class="input-wrap"><input id="aprDisbursementDate" type="date" value="2026-01-01" /></div>
+                <div class="input-wrap"><input id="aprDisbursementDate" type="date" value="2026-10-20" /></div>
               </div>
               <div class="field">
                 <label for="aprRepaymentMode">还款日期模式</label>
@@ -613,7 +552,7 @@
               </div>
               <div class="field" id="aprMonthlyDueField">
                 <label for="aprFirstDueDate">第一期到期日</label>
-                <div class="input-wrap"><input id="aprFirstDueDate" type="date" value="2026-02-01" /></div>
+                <div class="input-wrap"><input id="aprFirstDueDate" type="date" value="2026-11-20" /></div>
                 <p class="hint">后续各期保持同一日历还款日；当月没有该日期时使用当月最后一天。</p>
               </div>
               <div class="field" id="aprIntervalDaysField" hidden>
@@ -623,32 +562,32 @@
               </div>
               <div class="field">
                 <label for="aprTerm">期数</label>
-                <div class="input-wrap"><input id="aprTerm" type="number" min="1" step="1" value="1" /><span class="affix end">期</span></div>
+                <div class="input-wrap"><input id="aprTerm" type="number" min="1" step="1" value="12" /><span class="affix end">期</span></div>
                 <p class="hint">不设产品期数上限；请输入大于等于1的整数。</p>
+              </div>
+              <div class="field">
+                <label for="aprPixCollectionFee">每期PIX归集手续费</label>
+                <div class="input-wrap"><span class="affix">R$</span><input id="aprPixCollectionFee" type="number" min="0" step="0.01" value="0.40" /></div>
+                <p class="hint">由资金方承担；按每期成功归集一次计算，不进入借款人还款计划或CET。</p>
+              </div>
+              <div class="field">
+                <label for="aprSpreadRate">Spread价差费率</label>
+                <div class="input-wrap"><input id="aprSpreadRate" type="number" min="0" step="0.01" value="0.40" /><span class="affix end">%</span></div>
+                <p class="hint">按最终CCB本金一次性计算，由资金方承担；不进入借款人现金流或CET。</p>
               </div>
               <div class="field">
                 <label for="aprFixedFees">固定费用合计</label>
                 <div class="input-wrap"><span class="affix">R$</span><input id="aprFixedFees" type="number" min="0" step="0.01" value="0" /></div>
                 <p class="hint">将固定金额费用加总后输入。</p>
               </div>
-              <div class="field">
-                <label for="aprProportionalFees">按净到账比例的费用合计</label>
+              <div class="field span-2">
+                <label for="aprProportionalFees" id="aprProportionalFeesLabel">按Issue Amount比例的费用合计</label>
                 <div class="input-wrap"><input id="aprProportionalFees" type="number" min="0" step="0.01" value="0" /><span class="affix end">%</span></div>
-                <p class="hint">把所有按客户净到账比例收取的费用相加后输入，保险费率也合并在这里。</p>
-              </div>
-              <div class="field">
-                <label for="aprFinancedCostInterest">融资费用计息方式</label>
-                <div class="input-wrap">
-                  <select id="aprFinancedCostInterest">
-                    <option value="non_bearing" selected>全部融资费用不生息</option>
-                    <option value="bearing">全部融资费用生息</option>
-                  </select>
-                </div>
-                <p class="hint" id="aprCostInterestHint">固定费用、比例费用（含保险）和IOF均纳入应还本金，但不进入合同日息基数。</p>
+                <p class="hint" id="aprProportionalFeesHint">保险费率等比例费用以最终Issue Amount为基数，并参与本金循环反算。</p>
               </div>
               <div class="fee-note">
-                <strong>日息计费基数</strong>
-                保险费率请合并到“按净到账比例的费用合计”；固定费用、比例费用和IOF统一采用上方选择的计息方式。
+                <strong>融资费用计息方式：全部融资费用生息</strong>
+                <span id="aprCostInterestHint">固定费用、比例费用（含保险）和IOF全部进入合同利率计息本金；比例费用及IOF均以Issue Amount为计算基础。</span>
               </div>
               <div class="advanced">
                 <details>
@@ -680,11 +619,14 @@
               </div>
               <div class="metrics">
                 <div class="metric primary"><span>年度CET</span><strong id="aprAnnualCet">—</strong><small>实际日期 / 365</small></div>
-                <div class="metric"><span>月度等效CET</span><strong id="aprMonthlyCet">—</strong><small>由年度CET复利换算</small></div>
-                <div class="metric"><span>月度等效CET × 12</span><strong id="aprLinearCet">—</strong><small>线性年化口径</small></div>
-                <div class="metric"><span>年化IRR</span><strong id="aprLinearIrr">—</strong><small id="aprIrrBasis">每期IRR × 年内期数</small></div>
-                <div class="metric"><span>融资IOF</span><strong id="aprIofAmount">—</strong><small id="aprIofTreatmentHint">纳入应还本金（不计息）</small></div>
+                <div class="metric"><span>月度等效CET</span><strong id="aprMonthlyCet">—</strong><small>由年度CET复利换算；月度CET × 12：<span id="aprLinearCet">—</span></small></div>
+                <div class="metric"><span>合同年有效利率</span><strong id="aprAnnualContractRate">—</strong><small id="aprAnnualContractBasis">(1＋月利率或等效月利率)^12－1</small></div>
+                <div class="metric"><span>CCB 本金</span><strong id="aprIssuanceAmount">—</strong><small>Issuance Amount</small></div>
+                <div class="metric"><span>FIDC Net净值</span><strong id="aprNetValue">—</strong><small>总还款 − CCB本金 − PIX归集手续费 − Spread价差</small></div>
                 <div class="metric"><span>产品总利率</span><strong id="aprProductTotalRate">—</strong><small>不含IOF · 全期限累计比例</small></div>
+                <div class="metric"><span>融资IOF</span><strong id="aprIofAmount">—</strong><small id="aprIofTreatmentHint">纳入应还本金（不计息）</small></div>
+                <div class="metric"><span>其他费用合计</span><strong id="aprInsurancePremium">—</strong><small>固定费用＋比例费用 · 不含IOF</small></div>
+                <div class="metric"><span>资方侧费用合计</span><strong id="aprPixCollectionTariffs">—</strong><small class="cost-breakdown">PIX <span id="aprPixCostBreakdown">—</span> · Spread <span id="aprSpreadCostBreakdown">—</span></small></div>
               </div>
               <div class="status" id="aprStatus" role="status">计算完成</div>
             </section>
@@ -693,16 +635,16 @@
               <h2 class="section-title" id="apr-schedule-title">还款计划与CET现金流</h2>
               <div class="table-shell">
                 <table>
-                  <thead><tr><th>期数</th><th>到期日</th><th>本期天数</th><th>距放款日</th><th>期初本金</th><th>利息</th><th>偿还本金</th><th>应还金额</th><th>期末本金</th></tr></thead>
+                  <thead><tr><th>期数</th><th>到期日</th><th>本期天数</th><th>计息天数</th><th>距放款日</th><th>期初本金</th><th>利息</th><th>偿还本金</th><th>应还金额</th><th>期末本金</th><th>IOF日税部分</th><th>PIX手续费</th></tr></thead>
                   <tbody id="aprScheduleBody"></tbody>
-                  <tfoot><tr><td colspan="5">合计</td><td id="aprTotalInterest">—</td><td id="aprTotalPrincipal">—</td><td id="aprTotalPayment">—</td><td>—</td></tr></tfoot>
+                  <tfoot><tr><td colspan="6">合计</td><td id="aprTotalInterest">—</td><td id="aprTotalPrincipal">—</td><td id="aprTotalPayment">—</td><td>—</td><td id="aprTotalIofDaily">—</td><td id="aprTotalPixFee">—</td></tr></tfoot>
                 </table>
               </div>
             </section>
           </div>
         </div>
 
-        <p class="footer"><strong>提示：</strong>APR页的“年度线性APR＝日息×365”仅是报价换算；正式CET仍以客户真实现金流和实际日期计算。</p>
+        <p class="footer"><strong>提示：</strong>日息口径的月度和年度APR仅是线性报价换算；正式CET始终以客户真实现金流和实际日期计算。</p>
       </section>
     </main>
   </div>
@@ -712,11 +654,12 @@
     const views = [...document.querySelectorAll(".view")];
 
     function showView(name, updateHash = true) {
-      const selected = ["calculator", "apr"].includes(name) ? name : "logic";
+      const requested = name === "calculator" ? "apr" : name;
+      const selected = requested === "apr" ? "apr" : "logic";
       tabs.forEach((tab) => tab.setAttribute("aria-selected", String(tab.dataset.view === selected)));
       views.forEach((view) => { view.hidden = view.id !== `view-${selected}`; });
       if (updateHash && window.location.hash !== `#${selected}`) history.pushState(null, "", `#${selected}`);
-      const titles = { logic: "CET计算逻辑｜巴西信贷定价", calculator: "CET 计算器 - EIR", apr: "CET 计算器 - APR" };
+      const titles = { logic: "CET计算逻辑｜巴西信贷定价", apr: "CET计算器 - 输入合同利率" };
       document.title = titles[selected];
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -733,9 +676,7 @@
       });
     });
     window.addEventListener("hashchange", () => showView(window.location.hash.slice(1), false));
-
-    const ids = ["netAmount", "rateBasis", "contractRate", "eirRepaymentMethod", "disbursementDate", "repaymentMode", "firstDueDate", "intervalDays", "term", "fixedFees", "proportionalFees", "eirFinancedCostInterest", "iofAdditional", "iofDaily", "iofDayCap"];
-    const aprIds = ["aprNetAmount", "aprDailyRate", "aprInterestModel", "aprDisbursementDate", "aprRepaymentMode", "aprFirstDueDate", "aprIntervalDays", "aprTerm", "aprFixedFees", "aprProportionalFees", "aprFinancedCostInterest", "aprIofAdditional", "aprIofDaily", "aprIofDayCap"];
+    const aprIds = ["aprNetAmount", "aprQiInterestType", "aprRateBasis", "aprContractRate", "aprInterestBase", "aprInterestModel", "aprDisbursementDate", "aprRepaymentMode", "aprFirstDueDate", "aprIntervalDays", "aprTerm", "aprPixCollectionFee", "aprSpreadRate", "aprFixedFees", "aprProportionalFees", "aprIofAdditional", "aprIofDaily", "aprIofDayCap"];
     const $ = (id) => document.getElementById(id);
     const money = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 2 });
     const percent = (v, digits = 2) => new Intl.NumberFormat("zh-CN", { style: "percent", minimumFractionDigits: digits, maximumFractionDigits: digits }).format(v);
@@ -746,13 +687,9 @@
       return `${year}/${month}/${day}`;
     };
 
-    const defaults = {
-      netAmount: "1000", rateBasis: "monthly", contractRate: "20", eirRepaymentMethod: "flat", disbursementDate: "2026-01-01", repaymentMode: "monthly", firstDueDate: "2026-02-01", intervalDays: "30", term: "3",
-      fixedFees: "0", proportionalFees: "0", eirFinancedCostInterest: "non_bearing", iofAdditional: "0.38", iofDaily: "0.0082", iofDayCap: "365"
-    };
     const aprDefaults = {
-      aprNetAmount: "1000", aprDailyRate: "0.7", aprInterestModel: "flat", aprDisbursementDate: "2026-01-01", aprRepaymentMode: "monthly", aprFirstDueDate: "2026-02-01", aprIntervalDays: "15", aprTerm: "1",
-      aprFixedFees: "0", aprProportionalFees: "0", aprFinancedCostInterest: "non_bearing", aprIofAdditional: "0.38", aprIofDaily: "0.0082", aprIofDayCap: "365"
+      aprPricingMode: "qi", aprNetAmount: "500", aprQiInterestType: "pre_price_days", aprRateBasis: "monthly", aprContractRate: "1.8", aprInterestBase: "calendar_days", aprInterestModel: "pre_price_days", aprDisbursementDate: "2026-10-20", aprRepaymentMode: "monthly", aprFirstDueDate: "2026-11-20", aprIntervalDays: "15", aprTerm: "12", aprPixCollectionFee: "0.40",
+      aprSpreadRate: "0.40", aprFixedFees: "0", aprProportionalFees: "0", aprIofAdditional: "0.38", aprIofDaily: "0.0082", aprIofDayCap: "365"
     };
 
     function utcDate(value) {
@@ -790,211 +727,6 @@
       return (low + high) / 2;
     }
 
-    function solvePeriodicIrr(net, payments) {
-      const npv = (rate) => net - payments.reduce((sum, payment, index) => sum + payment / Math.pow(1 + rate, index + 1), 0);
-      let low = 0;
-      let high = 1;
-      if (npv(0) >= 0) return 0;
-      while (npv(high) < 0 && high < 1e12) high *= 2;
-      if (high >= 1e12 && npv(high) < 0) throw new Error("无法在合理区间内求得每期IRR。请检查输入。");
-      for (let k = 0; k < 180; k++) {
-        const mid = (low + high) / 2;
-        if (npv(mid) < 0) low = mid; else high = mid;
-      }
-      return (low + high) / 2;
-    }
-
-    function calculate() {
-      try {
-        const net = Number($("netAmount").value);
-        const rateBasis = $("rateBasis").value;
-        const contractRate = Number($("contractRate").value) / 100;
-        const repaymentMethod = $("eirRepaymentMethod").value;
-        const repaymentMode = $("repaymentMode").value;
-        const intervalDays = Math.trunc(Number($("intervalDays").value));
-        const term = Number($("term").value);
-        const fixedFees = Number($("fixedFees").value);
-        const proportionalFees = Number($("proportionalFees").value) / 100;
-        const financedCostsBearInterest = $("eirFinancedCostInterest").value === "bearing";
-        const iofAdditional = Number($("iofAdditional").value) / 100;
-        const iofDaily = Number($("iofDaily").value) / 100;
-        const cap = Math.trunc(Number($("iofDayCap").value));
-        const disbursement = utcDate($("disbursementDate").value);
-        const firstDue = repaymentMode === "monthly" ? utcDate($("firstDueDate").value) : null;
-
-        if (![net, contractRate, term, fixedFees, proportionalFees, iofAdditional, iofDaily, cap].every(Number.isFinite)) throw new Error("请完整填写所有参数。");
-        if (net <= 0) throw new Error("客户实际净到账必须大于0。");
-        if (!Number.isInteger(term) || term < 1) throw new Error("期数必须是大于等于1的整数。");
-        if (repaymentMode === "fixedDays" && (!Number.isFinite(intervalDays) || intervalDays < 1 || intervalDays > 365)) throw new Error("每期间隔天数必须在1至365天之间。");
-        if (contractRate < 0 || fixedFees < 0 || proportionalFees < 0 || iofAdditional < 0 || iofDaily < 0 || cap < 0) throw new Error("利率和费用不能为负数。");
-        if (repaymentMode === "monthly" && !(firstDue > disbursement)) throw new Error("第一期到期日必须晚于放款日。");
-
-        const dueDates = [];
-        const cumulativeDays = [];
-        for (let t = 1; t <= term; t++) {
-          const dueDate = repaymentMode === "fixedDays" ? addDays(disbursement, intervalDays * t) : addMonths(firstDue, t - 1);
-          const day = daysBetween(disbursement, dueDate);
-          if (day <= (cumulativeDays[t - 2] || 0)) throw new Error("到期日必须按时间递增。请检查日期设置。");
-          dueDates.push(dueDate);
-          cumulativeDays.push(day);
-        }
-
-        const discountSum = rateBasis === "monthly"
-          ? cumulativeDays.reduce((sum, day) => sum + Math.pow(1 + contractRate, -day / 30), 0)
-          : Array.from({ length: term }, (_, index) => Math.pow(1 + contractRate, -(index + 1))).reduce((sum, factor) => sum + factor, 0);
-        const priceUnitPayment = contractRate === 0 ? 1 / term : 1 / discountSum;
-        let unitBalance = 1;
-        let dailyFactor = 0;
-        const unitRows = [];
-        let previousDay = 0;
-        for (let t = 1; t <= term; t++) {
-          const dueDate = dueDates[t - 1];
-          const day = cumulativeDays[t - 1];
-          const periodDays = day - previousDay;
-          const periodRate = rateBasis === "monthly" ? Math.pow(1 + contractRate, periodDays / 30) - 1 : contractRate;
-          const unitInterest = (repaymentMethod === "price" ? unitBalance : 1) * periodRate;
-          const unitPrincipal = repaymentMethod === "price"
-            ? priceUnitPayment - unitInterest
-            : (t === term ? unitBalance : 1 / term);
-          const unitPayment = unitPrincipal + unitInterest;
-          const next = unitBalance - unitPrincipal;
-          dailyFactor += unitPrincipal * iofDaily * Math.min(day, cap);
-          unitRows.push({ t, dueDate, day, periodDays, periodRate, unitPayment, unitOpening: unitBalance, unitInterest, unitPrincipal, unitClosing: next });
-          unitBalance = next;
-          previousDay = day;
-        }
-
-        const iofFactor = iofAdditional + dailyFactor;
-        if (iofFactor >= 1) throw new Error("IOF总因子必须小于100%。请检查参数。");
-        const beforeIof = net + fixedFees + net * proportionalFees;
-        const buildRows = (financedPrincipal) => {
-          const interestPrincipal = financedCostsBearInterest ? financedPrincipal : net;
-          const nonInterestPrincipal = financedPrincipal - interestPrincipal;
-          const standardPayment = repaymentMethod === "price" ? roundMoney(interestPrincipal * priceUnitPayment) : null;
-          const standardInterestPrincipal = repaymentMethod === "flat" ? roundMoney(interestPrincipal / term) : null;
-          const standardNonInterestPrincipal = roundMoney(nonInterestPrincipal / term);
-          let interestBalance = interestPrincipal;
-          let nonInterestBalance = nonInterestPrincipal;
-          return unitRows.map((u, index) => {
-            const isLast = index === unitRows.length - 1;
-            const opening = roundMoney(interestBalance + nonInterestBalance);
-            const interest = roundMoney((repaymentMethod === "price" ? interestBalance : interestPrincipal) * u.periodRate);
-            const interestPrincipalPaid = isLast
-              ? interestBalance
-              : (repaymentMethod === "price" ? roundMoney(standardPayment - interest) : standardInterestPrincipal);
-            const nonInterestPrincipalPaid = isLast ? nonInterestBalance : standardNonInterestPrincipal;
-            const principalPaid = roundMoney(interestPrincipalPaid + nonInterestPrincipalPaid);
-            const payment = roundMoney(principalPaid + interest);
-            interestBalance = isLast ? 0 : roundMoney(interestBalance - interestPrincipalPaid);
-            nonInterestBalance = isLast ? 0 : roundMoney(nonInterestBalance - nonInterestPrincipalPaid);
-            const closing = roundMoney(interestBalance + nonInterestBalance);
-            return { ...u, opening, interest, principalPaid, payment, closing };
-          });
-        };
-        const calculateIof = (financedPrincipal, principalRows) => roundMoney(
-          roundMoney(financedPrincipal * iofAdditional)
-          + principalRows.reduce((sum, row) => sum + roundMoney(row.principalPaid * iofDaily * Math.min(row.day, cap)), 0)
-        );
-
-        let principal = roundMoney(beforeIof / (1 - iofFactor));
-        let converged = false;
-        for (let iteration = 0; iteration < 200; iteration++) {
-          const candidateRows = buildRows(principal);
-          const candidateIof = calculateIof(principal, candidateRows);
-          const nextPrincipal = roundMoney(beforeIof + candidateIof);
-          if (!Number.isFinite(nextPrincipal) || nextPrincipal > 1e15) throw new Error("无法求得合同本金，请检查IOF参数。");
-          if (nextPrincipal === principal) { converged = true; break; }
-          principal = nextPrincipal;
-        }
-        if (!converged) throw new Error("合同本金未能收敛，请检查IOF参数。");
-
-        const rows = buildRows(principal);
-        const iof = calculateIof(principal, rows);
-        const totalInterest = rows.reduce((sum, row) => sum + row.interest, 0);
-        const totalPrincipal = rows.reduce((sum, row) => sum + row.principalPaid, 0);
-
-        const annualCet = solveAnnualCet(net, rows.map((r) => r.payment), rows.map((r) => r.day));
-        const monthlyCet = Math.pow(1 + annualCet, 1 / 12) - 1;
-        const linearCet = monthlyCet * 12;
-        const periodicIrr = solvePeriodicIrr(net, rows.map((r) => r.payment));
-        const annualPeriods = repaymentMode === "fixedDays" ? 365 / intervalDays : 12;
-        const linearIrr = periodicIrr * annualPeriods;
-        const totalPayment = rows.reduce((sum, row) => sum + row.payment, 0);
-        const productTotalRate = (totalPayment - iof - net) / net;
-
-        $("annualCet").textContent = percent(annualCet, 2);
-        $("monthlyCet").textContent = percent(monthlyCet, 2);
-        $("linearCet").textContent = percent(linearCet, 2);
-        $("linearIrr").textContent = percent(linearIrr, 2);
-        $("irrBasis").textContent = repaymentMode === "fixedDays"
-          ? `每期IRR ${percent(periodicIrr, 2)} × 365/${intervalDays}`
-          : `每期IRR ${percent(periodicIrr, 2)} × 12`;
-        $("iofAmount").textContent = money.format(iof);
-        $("iofTreatmentHint").textContent = financedCostsBearInterest ? "计入计息本金（生息）" : "纳入应还本金（不计息）";
-        $("productTotalRate").textContent = percent(productTotalRate, 2);
-        $("totalInterest").textContent = money.format(totalInterest);
-        $("totalPrincipal").textContent = money.format(totalPrincipal);
-        $("totalPayment").textContent = money.format(totalPayment);
-
-        $("scheduleBody").innerHTML = rows.map((r) => `
-          <tr>
-            <td>${r.t}</td><td>${formatScheduleDate(r.dueDate)}</td><td>${r.periodDays}</td><td>${r.day}</td>
-            <td>${money.format(r.opening)}</td><td>${money.format(r.interest)}</td>
-            <td>${money.format(r.principalPaid)}</td><td>${money.format(r.payment)}</td><td>${money.format(r.closing)}</td>
-          </tr>`).join("");
-        $("status").className = "status";
-        const cadence = repaymentMode === "fixedDays" ? `每${intervalDays}天一期` : "每月固定还款日";
-        const rateStatus = rateBasis === "monthly" ? "30天月有效利率按各期实际天数/30折算" : "每期直接使用输入的有效利率";
-        const repaymentName = repaymentMethod === "price" ? "Price等额还款" : "等本等息";
-        const costInterestStatus = financedCostsBearInterest ? "全部融资费用生息" : "全部融资费用不生息";
-        $("status").textContent = `计算完成。${repaymentName}；${cadence}；${rateStatus}；${costInterestStatus}；固定及比例费用（含保险）：${money.format(fixedFees + net * proportionalFees)}；IOF：${money.format(iof)}。`;
-      } catch (error) {
-        $("status").className = "status error";
-        $("status").textContent = error.message || "计算失败，请检查输入。";
-        ["annualCet", "monthlyCet", "linearCet", "linearIrr", "iofAmount", "productTotalRate"].forEach((id) => $(id).textContent = "—");
-        $("irrBasis").textContent = "每期IRR × 年内期数";
-        $("scheduleBody").innerHTML = "";
-      }
-    }
-
-    function syncRepaymentFields() {
-      const fixedDays = $("repaymentMode").value === "fixedDays";
-      $("monthlyDueField").hidden = fixedDays;
-      $("intervalDaysField").hidden = !fixedDays;
-      $("firstDueDate").disabled = fixedDays;
-      $("intervalDays").disabled = !fixedDays;
-      const days = Math.trunc(Number($("intervalDays").value));
-      $("intervalHint").textContent = Number.isFinite(days) && days > 0
-        ? `第一期为放款日后${days}天，后续每${days}天一期。`
-        : "从放款日起按固定天数生成每一期到期日。";
-    }
-
-    function syncRateFields() {
-      const periodRate = $("rateBasis").value === "period";
-      $("contractRateLabel").textContent = periodRate ? "每期有效利率" : "合同月利率（30天）";
-      if (periodRate) {
-        const cadence = $("repaymentMode").value === "fixedDays"
-          ? `每个${Math.trunc(Number($("intervalDays").value)) || "X"}天还款期`
-          : "每个自然月还款期";
-        $("contractRateHint").textContent = `${cadence}直接使用该利率，不按本期实际天数再次折算。`;
-      } else {
-        $("contractRateHint").textContent = "视为30天有效利率，各期按实际天数/30复利折算。";
-      }
-    }
-
-    function syncEirRepaymentFields() {
-      const priceMethod = $("eirRepaymentMethod").value === "price";
-      const financedCostsBearInterest = $("eirFinancedCostInterest").value === "bearing";
-      $("eirRepaymentSummary").textContent = `还款方式：${priceMethod ? "Price等额还款" : "等本等息"}`;
-      $("eirRepaymentHint").textContent = priceMethod
-        ? `按合同利率对剩余${financedCostsBearInterest ? "合同本金" : "计息本金（仅客户实际净到账）"}计息，通过Price公式计算。`
-        : `每期偿还本金，利息始终按初始${financedCostsBearInterest ? "合同本金" : "计息本金（仅客户实际净到账）"}计算；采用实际天数折算时，各期利息会随天数变化。`;
-      $("eirCostInterestHint").textContent = financedCostsBearInterest
-        ? "固定费用、比例费用（含保险）和IOF全部进入合同计息本金。"
-        : "固定费用、比例费用（含保险）和IOF只分期偿还，不进入合同利率的计息基数。";
-      $("iofTreatmentHint").textContent = financedCostsBearInterest ? "计入计息本金（生息）" : "纳入应还本金（不计息）";
-    }
-
     function syncAprFields() {
       const fixedDays = $("aprRepaymentMode").value === "fixedDays";
       $("aprMonthlyDueField").hidden = fixedDays;
@@ -1006,57 +738,129 @@
         ? `第一期为放款日后${days}天，后续每${days}天一期。`
         : "从放款日起按固定天数生成每一期到期日。";
 
-      const dailyRate = Number($("aprDailyRate").value) / 100;
-      $("aprQuoteHint").textContent = Number.isFinite(dailyRate) && dailyRate >= 0
-        ? `月度APR ${percent(dailyRate * 30, 2)}；年度APR ${percent(dailyRate * 365, 2)}。`
-        : "日息按单利进行线性报价换算。";
+      const pricingMode = $("aprPricingMode").value;
+      const qiType = $("aprQiInterestType").value;
+      const qiControlled = pricingMode === "qi";
+      $("aprQiTypeField").hidden = !qiControlled;
+      $("aprRateBasisField").hidden = qiControlled;
+      $("aprCustomRepaymentField").hidden = qiControlled;
+      $("aprAutoConfigSummary").hidden = !qiControlled;
+      $("aprRateBasis").disabled = qiControlled;
+      $("aprInterestModel").disabled = qiControlled;
+      if (qiControlled) {
+        $("aprRateBasis").value = "monthly";
+        $("aprInterestModel").value = qiType;
+      }
+
+      const qiHints = {
+        pre_price: "QI pre_price：Tabela Price固定30天；每期使用一个完整周期利率，不按后续月份的28/30/31天调整。",
+        pre_price_days: "QI pre_price_days：Tabela Price等额分期；按实际自然日/360（每月30天）复利换算。",
+        pre_sac: "QI pre_sac：SAC等额本金；按实际自然日/360（每月30天）复利换算。"
+      };
+      $("aprQiTypeHint").textContent = qiHints[qiType];
+      $("aprPricingModeHint").textContent = qiControlled
+        ? "选择QI Interest Type后，系统自动控制利率口径和还款方式；合同日基准固定为自然日/360。"
+        : "可分别设置合同利率口径和还款方式；合同日基准固定为自然日/360。";
+      $("aprPricingConfigCaption").textContent = qiControlled ? "QI参数联动" : "自定义底层参数";
+
+      const rateBasis = $("aprRateBasis").value;
+      const contractRate = Number($("aprContractRate").value) / 100;
+      const rateConfig = {
+        daily: { label: "日息", unit: "%/天" },
+        monthly: { label: "30天月有效利率", unit: "%/30天" },
+        period: { label: "每期有效利率", unit: "%/期" }
+      }[rateBasis];
+      $("aprContractRateLabel").textContent = rateConfig.label;
+      $("aprContractRateUnit").textContent = rateConfig.unit;
+      if (!Number.isFinite(contractRate) || contractRate < 0) {
+        $("aprQuoteHint").textContent = "请输入不小于0的合同利率。";
+      } else if (rateBasis === "daily") {
+        $("aprQuoteHint").textContent = `月度APR ${percent(contractRate * 30, 2)}；年度APR ${percent(contractRate * 365, 2)}。`;
+      } else if (rateBasis === "monthly") {
+        $("aprQuoteHint").textContent = qiType === "pre_price"
+          ? "固定30天周期有效利率；pre_price每期直接使用一次该利率。"
+          : "30天月有效利率；按实际自然日/360（每月30天）转换为各期利率。";
+      } else {
+        $("aprQuoteHint").textContent = "每个还款期直接使用该有效利率，不按实际天数再次折算。";
+      }
 
       const interestModel = $("aprInterestModel").value;
-      const financedCostsBearInterest = $("aprFinancedCostInterest").value === "bearing";
-      const modelName = interestModel === "flat"
-        ? "等本等息"
-        : `Tabela Price - ${interestModel === "price_compound" ? "按日复利" : "按日单利"}`;
-      $("aprInterestSummary").textContent = `还款方式：${modelName}`;
+      const interestBase = $("aprInterestBase").value;
+      const interestBaseNotApplicable = interestModel === "pre_price" || rateBasis === "period";
+      const financedCostsBearInterest = true;
+      const modelNames = {
+        flat: "等本等息（非QI标准映射）",
+        pre_price: "Tabela Price－固定30天（pre_price）",
+        pre_price_days: "Tabela Price－按实际天数（pre_price_days）",
+        pre_sac: "SAC等额本金－按实际天数（pre_sac）",
+        price_simple_custom: "Tabela Price－按日单利（非QI标准映射）"
+      };
+      const modelName = modelNames[interestModel];
+      if (qiControlled) {
+        const baseName = interestBaseNotApplicable ? "不按实际天数换算" : "自然日/360（每月30天）";
+        $("aprAutoConfigSummary").textContent = `已自动配置：${modelName.replace(/（[^）]+）/g, "")}｜30天月有效利率｜${baseName}`;
+      }
       const interestBaseText = financedCostsBearInterest ? "客户净到账及全部融资费用" : "客户实际净到账";
+      const periodRateText = interestModel === "pre_price"
+        ? "固定周期利率，每期使用一次"
+        : interestModel === "price_simple_custom"
+          ? "日息×计息天数"
+          : rateBasis === "daily"
+            ? "(1＋日息)^计息天数－1"
+            : rateBasis === "monthly"
+              ? "(1＋30天月有效利率)^(实际自然日数÷30)－1"
+              : "输入的每期有效利率";
       $("aprModelHint").textContent = interestModel === "flat"
-        ? `每期偿还本金；利息＝${interestBaseText} × 日息 × 本期实际天数，计息基数不随本金偿还而下降。`
-        : interestModel === "price_compound"
-          ? `利息每日资本化：本期利率＝(1＋日息)^本期实际天数－1；对${interestBaseText}按Tabela Price计算。`
-          : `本期利率＝日息 × 本期实际天数；对${interestBaseText}按Tabela Price计算。`;
+        ? `每期偿还相同本金；利息按初始${interestBaseText}和期间利率（${periodRateText}）计算，计息基数不随本金偿还而下降。`
+        : interestModel === "pre_sac"
+          ? `每期偿还相同计息本金；利息按剩余${interestBaseText}和期间利率（${periodRateText}）计算，总还款额逐期下降。`
+          : `期间利率＝${periodRateText}；对${interestBaseText}按Tabela Price计算。`;
       $("aprCostInterestHint").textContent = financedCostsBearInterest
-        ? "固定费用、比例费用（含保险）和IOF全部进入日息计息本金。"
-        : "固定费用、比例费用（含保险）和IOF分期偿还，但均不进入合同日息基数。";
+        ? "固定费用、比例费用（含保险）和IOF全部进入合同利率计息本金；比例费用及IOF均以Issue Amount为计算基础。"
+        : "固定费用、比例费用（含保险）和IOF分期偿还，但均不进入合同利率计息基数。";
+      $("aprProportionalFeesLabel").textContent = financedCostsBearInterest ? "按Issue Amount比例的费用合计" : "按净到账比例的费用合计";
+      $("aprProportionalFeesHint").textContent = financedCostsBearInterest
+        ? "保险费率等比例费用以最终Issue Amount为基数，并参与本金循环反算。"
+        : "比例费用以客户实际净到账为基数，不进入合同利率计息基数。";
       $("aprIofTreatmentHint").textContent = financedCostsBearInterest ? "计入计息本金（生息）" : "纳入应还本金（不计息）";
     }
 
     function calculateApr() {
       try {
         const net = Number($("aprNetAmount").value);
-        const dailyRate = Number($("aprDailyRate").value) / 100;
+        const rateBasis = $("aprRateBasis").value;
+        const contractRate = Number($("aprContractRate").value) / 100;
+        const interestBase = $("aprInterestBase").value;
         const interestModel = $("aprInterestModel").value;
         const repaymentMode = $("aprRepaymentMode").value;
         const intervalDays = Math.trunc(Number($("aprIntervalDays").value));
         const term = Number($("aprTerm").value);
+        const pixCollectionFee = Number($("aprPixCollectionFee").value);
+        const spreadRate = Number($("aprSpreadRate").value) / 100;
         const fixedFees = Number($("aprFixedFees").value);
         const proportionalFees = Number($("aprProportionalFees").value) / 100;
-        const financedCostsBearInterest = $("aprFinancedCostInterest").value === "bearing";
+        const financedCostsBearInterest = true;
         const iofAdditional = Number($("aprIofAdditional").value) / 100;
         const iofDaily = Number($("aprIofDaily").value) / 100;
         const cap = Math.trunc(Number($("aprIofDayCap").value));
         const disbursement = utcDate($("aprDisbursementDate").value);
         const firstDue = repaymentMode === "monthly" ? utcDate($("aprFirstDueDate").value) : null;
 
-        if (![net, dailyRate, term, fixedFees, proportionalFees, iofAdditional, iofDaily, cap].every(Number.isFinite)) throw new Error("请完整填写所有参数。");
+        if (![net, contractRate, term, pixCollectionFee, spreadRate, fixedFees, proportionalFees, iofAdditional, iofDaily, cap].every(Number.isFinite)) throw new Error("请完整填写所有参数。");
         if (net <= 0) throw new Error("客户实际净到账必须大于0。");
         if (!Number.isInteger(term) || term < 1) throw new Error("期数必须是大于等于1的整数。");
         if (repaymentMode === "fixedDays" && (!Number.isFinite(intervalDays) || intervalDays < 1 || intervalDays > 365)) throw new Error("每期间隔天数必须在1至365天之间。");
-        if (dailyRate < 0 || fixedFees < 0 || proportionalFees < 0 || iofAdditional < 0 || iofDaily < 0 || cap < 0) throw new Error("利率和费用不能为负数。");
+        if (!["daily", "monthly", "period"].includes(rateBasis)) throw new Error("请选择有效的合同利率口径。");
+        if (interestBase !== "calendar_days") throw new Error("合同日基准必须为calendar_days（自然日/360）。");
+        if (!["flat", "pre_price", "pre_price_days", "pre_sac", "price_simple_custom"].includes(interestModel)) throw new Error("请选择有效的还款方式。");
+        if (contractRate < 0 || pixCollectionFee < 0 || spreadRate < 0 || fixedFees < 0 || proportionalFees < 0 || iofAdditional < 0 || iofDaily < 0 || cap < 0) throw new Error("利率和费用不能为负数。");
         if (iofAdditional >= 1) throw new Error("IOF附加税率必须小于100%。");
         if (repaymentMode === "monthly" && !(firstDue > disbursement)) throw new Error("第一期到期日必须晚于放款日。");
 
         const dueDates = [];
         const cumulativeDays = [];
         const periodDaysList = [];
+        const interestDaysList = [];
         let previousDay = 0;
         for (let t = 1; t <= term; t++) {
           const dueDate = repaymentMode === "fixedDays" ? addDays(disbursement, intervalDays * t) : addMonths(firstDue, t - 1);
@@ -1065,13 +869,25 @@
           dueDates.push(dueDate);
           cumulativeDays.push(day);
           periodDaysList.push(day - previousDay);
+          interestDaysList.push(day - previousDay);
           previousDay = day;
         }
 
-        const beforeIof = net + fixedFees + net * proportionalFees;
-        const periodRates = periodDaysList.map((days) => interestModel === "price_compound"
-          ? Math.pow(1 + dailyRate, days) - 1
-          : dailyRate * days);
+        const proportionalFeeBase = financedCostsBearInterest ? 0 : net;
+        const beforeIof = net + fixedFees + proportionalFeeBase * proportionalFees;
+        const baseDaysPerPeriod = 30;
+        const periodRates = interestDaysList.map((interestDays) => {
+          if (interestModel === "pre_price") {
+            if (rateBasis === "monthly" || rateBasis === "period") return contractRate;
+            return Math.pow(1 + contractRate, 30) - 1;
+          }
+          if (rateBasis === "period") return contractRate;
+          if (interestModel === "price_simple_custom") return contractRate * interestDays;
+          if (interestModel === "flat" && rateBasis === "daily") return contractRate * interestDays;
+          return rateBasis === "daily"
+            ? Math.pow(1 + contractRate, interestDays) - 1
+            : Math.pow(1 + contractRate, interestDays / baseDaysPerPeriod) - 1;
+        });
         const buildAprRows = (financedPrincipal) => {
           const interestPrincipal = financedCostsBearInterest ? financedPrincipal : net;
           const nonInterestPrincipal = financedPrincipal - interestPrincipal;
@@ -1081,7 +897,15 @@
               const principalPaid = index === term - 1
                 ? interestPrincipal - (interestPrincipal / term) * (term - 1)
                 : interestPrincipal / term;
-              interestRows.push({ interest: interestPrincipal * dailyRate * days, principalPaid });
+              interestRows.push({ interest: interestPrincipal * periodRates[index], principalPaid });
+            });
+          } else if (interestModel === "pre_sac") {
+            let interestBalance = interestPrincipal;
+            periodRates.forEach((periodRate, index) => {
+              const isLast = index === term - 1;
+              const principalPaid = isLast ? interestBalance : interestPrincipal / term;
+              interestRows.push({ interest: interestBalance * periodRate, principalPaid });
+              interestBalance = isLast ? 0 : interestBalance - principalPaid;
             });
           } else {
             let growth = 1;
@@ -1101,103 +925,137 @@
           let balance = financedPrincipal;
           return interestRows.map((interestRow, index) => {
             const opening = balance;
-            const interest = roundMoney(interestRow.interest);
+            const interest = interestRow.interest;
             const isLast = index === term - 1;
             const exactPrincipalPaid = interestModel === "flat"
               ? financedPrincipal / term
               : interestRow.principalPaid + nonInterestPrincipal / term;
-            const principalPaid = isLast ? balance : roundMoney(exactPrincipalPaid);
-            const payment = roundMoney(principalPaid + interest);
-            const closing = isLast ? 0 : roundMoney(opening - principalPaid);
+            const principalPaid = isLast ? balance : exactPrincipalPaid;
+            const payment = principalPaid + interest;
+            const closing = isLast ? 0 : opening - principalPaid;
             balance = closing;
-            return { t: index + 1, dueDate: dueDates[index], day: cumulativeDays[index], periodDays: periodDaysList[index], opening, interest, principalPaid, payment, closing };
+            return { t: index + 1, dueDate: dueDates[index], day: cumulativeDays[index], periodDays: periodDaysList[index], interestDays: interestDaysList[index], opening, interest, principalPaid, payment, closing };
           });
         };
-        const calculateAprIof = (financedPrincipal, principalRows) => roundMoney(
-          roundMoney(financedPrincipal * iofAdditional)
-          + principalRows.reduce((sum, row, index) => sum + roundMoney(row.principalPaid * iofDaily * Math.min(cumulativeDays[index], cap)), 0)
-        );
+        const calculateAprIof = (financedPrincipal, principalRows) =>
+          financedPrincipal * iofAdditional
+          + principalRows.reduce((sum, row, index) => sum + row.principalPaid * iofDaily * Math.min(cumulativeDays[index], cap), 0);
 
-        let principal = roundMoney(beforeIof / (1 - iofAdditional));
+        const initialDenominator = 1 - iofAdditional - (financedCostsBearInterest ? proportionalFees : 0);
+        if (initialDenominator <= 0) throw new Error("比例费用与IOF附加税率合计必须小于100%。请检查参数。");
+        let principal = beforeIof / initialDenominator;
         let converged = false;
         for (let iteration = 0; iteration < 200; iteration++) {
           const candidateIof = calculateAprIof(principal, buildAprRows(principal));
-          const nextPrincipal = roundMoney(beforeIof + candidateIof);
+          const candidateProportionalFee = (financedCostsBearInterest ? principal : net) * proportionalFees;
+          const nextPrincipal = net + fixedFees + candidateProportionalFee + candidateIof;
           if (!Number.isFinite(nextPrincipal) || nextPrincipal > 1e15) throw new Error("无法求得融资IOF，请检查IOF参数。");
-          if (nextPrincipal === principal) { converged = true; break; }
+          if (Math.abs(nextPrincipal - principal) < 1e-10) { principal = nextPrincipal; converged = true; break; }
           principal = nextPrincipal;
         }
         if (!converged) throw new Error("合同本金未能收敛，请检查IOF参数。");
         const rows = buildAprRows(principal);
         const iof = calculateAprIof(principal, rows);
+        rows.forEach((row, index) => {
+          row.iofDailyPart = row.principalPaid * iofDaily * Math.min(cumulativeDays[index], cap);
+          row.pixFee = pixCollectionFee;
+        });
+        const proportionalFeeAmount = (financedCostsBearInterest ? principal : net) * proportionalFees;
         const totalInterest = rows.reduce((sum, row) => sum + row.interest, 0);
         const totalPrincipal = rows.reduce((sum, row) => sum + row.principalPaid, 0);
+        const totalIofDaily = rows.reduce((sum, row) => sum + row.iofDailyPart, 0);
 
         const payments = rows.map((row) => row.payment);
         const annualCet = solveAnnualCet(net, payments, cumulativeDays);
         const monthlyCet = Math.pow(1 + annualCet, 1 / 12) - 1;
         const linearCet = monthlyCet * 12;
-        const periodicIrr = solvePeriodicIrr(net, payments);
-        const annualPeriods = repaymentMode === "fixedDays" ? 365 / intervalDays : 12;
-        const linearIrr = periodicIrr * annualPeriods;
+        const equivalentMonthlyRate = rateBasis === "monthly"
+          ? contractRate
+          : rateBasis === "daily"
+            ? Math.pow(1 + contractRate, 30) - 1
+            : repaymentMode === "fixedDays"
+              ? Math.pow(1 + contractRate, 30 / intervalDays) - 1
+              : contractRate;
+        const annualContractRate = Math.pow(1 + equivalentMonthlyRate, 12) - 1;
         const totalPayment = rows.reduce((sum, row) => sum + row.payment, 0);
+        const pixCollectionTariffs = pixCollectionFee * term;
+        const spreadAmount = roundMoney(principal * spreadRate);
+        const funderSideCosts = pixCollectionTariffs + spreadAmount;
+        const netValue = totalPayment - principal - funderSideCosts;
         const productTotalRate = (totalPayment - iof - net) / net;
 
+        $("aprIssuanceAmount").textContent = money.format(principal);
+        $("aprInsurancePremium").textContent = money.format(fixedFees + proportionalFeeAmount);
         $("aprAnnualCet").textContent = percent(annualCet, 2);
         $("aprMonthlyCet").textContent = percent(monthlyCet, 2);
         $("aprLinearCet").textContent = percent(linearCet, 2);
-        $("aprLinearIrr").textContent = percent(linearIrr, 2);
-        $("aprIrrBasis").textContent = repaymentMode === "fixedDays"
-          ? `每期IRR ${percent(periodicIrr, 2)} × 365/${intervalDays}`
-          : `每期IRR ${percent(periodicIrr, 2)} × 12`;
+        $("aprAnnualContractRate").textContent = percent(annualContractRate, 2);
+        $("aprAnnualContractBasis").textContent = `等效月利率 ${percent(equivalentMonthlyRate, 2)}；复利年化`;
         $("aprIofAmount").textContent = money.format(iof);
         $("aprIofTreatmentHint").textContent = financedCostsBearInterest ? "计入计息本金（生息）" : "纳入应还本金（不计息）";
+        $("aprPixCollectionTariffs").textContent = money.format(funderSideCosts);
+        $("aprPixCostBreakdown").textContent = money.format(pixCollectionTariffs);
+        $("aprSpreadCostBreakdown").textContent = money.format(spreadAmount);
+        $("aprNetValue").textContent = money.format(netValue);
         $("aprProductTotalRate").textContent = percent(productTotalRate, 2);
         $("aprTotalInterest").textContent = money.format(totalInterest);
         $("aprTotalPrincipal").textContent = money.format(totalPrincipal);
         $("aprTotalPayment").textContent = money.format(totalPayment);
+        $("aprTotalIofDaily").textContent = money.format(totalIofDaily);
+        $("aprTotalPixFee").textContent = money.format(pixCollectionTariffs);
         $("aprScheduleBody").innerHTML = rows.map((row) => `
           <tr>
-            <td>${row.t}</td><td>${formatScheduleDate(row.dueDate)}</td><td>${row.periodDays}</td><td>${row.day}</td>
+            <td>${row.t}</td><td>${formatScheduleDate(row.dueDate)}</td><td>${row.periodDays}</td><td>${row.interestDays}</td><td>${row.day}</td>
             <td>${money.format(row.opening)}</td><td>${money.format(row.interest)}</td>
             <td>${money.format(row.principalPaid)}</td><td>${money.format(row.payment)}</td><td>${money.format(row.closing)}</td>
+            <td>${money.format(row.iofDailyPart)}</td><td>${money.format(row.pixFee)}</td>
           </tr>`).join("");
         $("aprStatus").className = "status";
         const cadence = repaymentMode === "fixedDays" ? `每${intervalDays}天一期` : "每月固定还款日";
-        const modelName = interestModel === "flat"
-          ? "等本等息"
-          : `Tabela Price - ${interestModel === "price_compound" ? "按日复利" : "按日单利"}`;
+        const modelName = {
+          flat: "等本等息（非QI标准映射）",
+          pre_price: "Tabela Price－固定30天（pre_price）",
+          pre_price_days: "Tabela Price－按实际天数（pre_price_days）",
+          pre_sac: "SAC等额本金－按实际天数（pre_sac）",
+          price_simple_custom: "Tabela Price－按日单利（非QI标准映射）"
+        }[interestModel];
+        const rateBasisName = rateBasis === "daily" ? "日息" : rateBasis === "monthly" ? "30天月有效利率" : "每期有效利率";
+        const dayBaseName = interestModel === "pre_price" || rateBasis === "period"
+          ? "固定周期、不按实际天数换算"
+          : "自然日/360（每月30天）";
         const interestBaseStatus = financedCostsBearInterest ? "全部融资费用生息" : "全部融资费用不生息";
-        $("aprStatus").textContent = `计算完成。${modelName}；${interestBaseStatus}；${cadence}；固定及比例费用（含保险）：${money.format(fixedFees + net * proportionalFees)}；IOF：${money.format(iof)}。`;
+        $("aprStatus").textContent = `计算完成。${rateBasisName}；${modelName}；合同计息基准：${dayBaseName}；${interestBaseStatus}；${cadence}；固定及比例费用（含保险）：${money.format(fixedFees + proportionalFeeAmount)}；IOF：${money.format(iof)}；PIX归集手续费：${money.format(pixCollectionTariffs)}；Spread价差：${money.format(spreadAmount)}。`;
       } catch (error) {
         $("aprStatus").className = "status error";
         $("aprStatus").textContent = error.message || "计算失败，请检查输入。";
-        ["aprAnnualCet", "aprMonthlyCet", "aprLinearCet", "aprLinearIrr", "aprIofAmount", "aprProductTotalRate"].forEach((id) => $(id).textContent = "—");
-        $("aprIrrBasis").textContent = "每期IRR × 年内期数";
+        ["aprIssuanceAmount", "aprInsurancePremium", "aprAnnualCet", "aprMonthlyCet", "aprLinearCet", "aprAnnualContractRate", "aprIofAmount", "aprPixCollectionTariffs", "aprPixCostBreakdown", "aprSpreadCostBreakdown", "aprNetValue", "aprProductTotalRate"].forEach((id) => $(id).textContent = "—");
+        ["aprTotalInterest", "aprTotalPrincipal", "aprTotalPayment", "aprTotalIofDaily", "aprTotalPixFee"].forEach((id) => $(id).textContent = "—");
+        $("aprAnnualContractBasis").textContent = "(1＋月利率或等效月利率)^12－1";
         $("aprScheduleBody").innerHTML = "";
       }
     }
 
-    ids.forEach((id) => $(id).addEventListener("input", () => { syncRepaymentFields(); syncRateFields(); syncEirRepaymentFields(); calculate(); }));
     aprIds.forEach((id) => $(id).addEventListener("input", () => { syncAprFields(); calculateApr(); }));
-    $("resetBtn").addEventListener("click", () => {
-      Object.entries(defaults).forEach(([id, value]) => $(id).value = value);
-      $("eirRepaymentDetails").open = false;
-      syncRepaymentFields();
-      syncRateFields();
-      syncEirRepaymentFields();
-      calculate();
+    function setPricingMode(mode) {
+      $("aprPricingMode").value = mode;
+      document.querySelectorAll("[data-pricing-mode]").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.pricingMode === mode));
+      });
+    }
+    document.querySelectorAll("[data-pricing-mode]").forEach((button) => {
+      button.addEventListener("click", () => {
+        setPricingMode(button.dataset.pricingMode);
+        syncAprFields();
+        calculateApr();
+      });
     });
     $("aprResetBtn").addEventListener("click", () => {
       Object.entries(aprDefaults).forEach(([id, value]) => $(id).value = value);
-      $("aprInterestDetails").open = false;
+      setPricingMode(aprDefaults.aprPricingMode);
       syncAprFields();
       calculateApr();
     });
-    syncRepaymentFields();
-    syncRateFields();
-    syncEirRepaymentFields();
-    calculate();
+    setPricingMode($("aprPricingMode").value);
     syncAprFields();
     calculateApr();
     showView(window.location.hash.slice(1), false);
